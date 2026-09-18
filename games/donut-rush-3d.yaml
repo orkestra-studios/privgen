@@ -1,0 +1,67 @@
+# DRAFT — not yet confirmed against the shipped build.
+#
+# Two things in this file are placeholders and must be checked before these
+# documents are treated as published:
+#
+#   1. `company` — the legal name, address and contact were carried over from
+#      the old hardcoded policy ("Orkestra, LLC", berkcan@orkestra.co). Naming
+#      the controller correctly is a GDPR Art. 13 and KVKK m.10 obligation.
+#
+#   2. `sdks` and `collects` — seeded from what the previous code implied, not
+#      from the build. Confirm against the Play Data Safety declaration and the
+#      Xcode privacy-manifest report for this title, then delete this notice.
+#
+# The generator will tell you if the combination is inconsistent; it cannot
+# tell you if it is merely wrong.
+
+slug: donut-rush-3d
+name: Donut Rush 3D
+updated: 2026-09-19
+
+company:
+  legalName: Orkestra, LLC
+  address:
+    - "REVIEW: registered address required"
+  country: United States
+  privacyEmail: privacy@orkestra.co
+  supportEmail: support@orkestra.co
+  website: https://orkestra.co
+  # euRepresentative / ukRepresentative: none appointed. The loader will print
+  # an advisory on every boot until one is, because a controller established
+  # outside the EEA that targets it needs one under Art. 27.
+
+platforms: [ios, android]
+audience: general
+ageGate: 13
+regions: [eea, uk, us-ca, us-other, turkey, rest-of-world]
+
+collects:
+  - device-identifiers
+  - advertising-id
+  - ip-address
+  - usage-analytics
+  - crash-diagnostics
+  - purchase-history
+
+sdks:
+  - applovin-max
+  - gameanalytics
+  - adjust
+  - firebase-analytics
+  - crashlytics
+
+monetization: [banner-ads, interstitial-ads, rewarded-ads, iap-consumable]
+features: []
+
+retention:
+  analytics: 14 months
+  crash: 90 days
+  support: 3 years
+
+terms:
+  governingLaw: the State of Delaware, United States
+  venue: Wilmington, Delaware
+  arbitration: false
+  minAge: 13
+  refunds: platform-only
+  virtualItems: true

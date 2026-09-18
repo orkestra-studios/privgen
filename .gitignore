@@ -1,4 +1,6 @@
 .stack-work/
-games/
+dist-newstyle/
+privgen.cabal
+stack.yaml.lock
 *~
 .DS_Store

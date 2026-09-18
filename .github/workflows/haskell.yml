@@ -1,27 +1,85 @@
-name: Create Assets
+name: CI
 
+# Builds and tests on every push and pull request. The previous workflow only
+# ran on published releases, so nothing was ever checked before it shipped.
 on:
+  push:
+    branches: [master]
+  pull_request:
   release:
     types: [published]
-    
+
 jobs:
   build:
+    name: Build and test
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Build the project
-      run: stack build
-        
-    - name: Archive binary
-      run: |
-        export PROGRAM=privgen-exe
-        cp `stack exec -- which $PROGRAM` $PROGRAM
-        tar -cavf privgen.tar.gz $PROGRAM
-        
-    - name: Upload assets
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        name: privgen.tar.gz
-        path: ./privgen.tar.gz
+      - name: Set up Haskell
+        uses: haskell-actions/setup@v2
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+
+      - name: Cache Stack
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+          key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml', 'package.yaml') }}
+          restore-keys: ${{ runner.os }}-stack-
+
+      - name: Build
+        run: stack build --test --no-run-tests
+
+      - name: Test
+        run: stack test
+
+      - name: Check the committed specs load
+        # The server refuses to start on a bad spec, so prove it starts.
+        run: |
+          stack exec -- privgen-exe &
+          PID=$!
+          sleep 5
+          curl -sf --max-time 5 http://127.0.0.1:8080/healthz
+          curl -sf --max-time 5 http://127.0.0.1:8080/privacy/donut-rush-3d > /dev/null
+          curl -sf --max-time 5 http://127.0.0.1:8080/terms/donut-rush-3d > /dev/null
+          # A missing game must be a 404, not a 200 "not found" page.
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 5 \
+                 http://127.0.0.1:8080/privacy/no-such-game)
+          test "$CODE" = "404" || { echo "expected 404, got $CODE"; exit 1; }
+          kill $PID
+
+  release:
+    name: Attach release assets
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Haskell
+        uses: haskell-actions/setup@v2
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+
+      - name: Build
+        run: stack build
+
+      - name: Package
+        # The old workflow shipped a bare binary. Both `games/` and `static/`
+        # are resolved relative to the working directory, so a binary on its
+        # own cannot serve anything.
+        run: |
+          mkdir -p dist
+          cp "$(stack exec -- which privgen-exe)" dist/privgen-exe
+          cp -r games static dist/
+          tar -czf privgen.tar.gz -C dist .
+
+      - name: Upload to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: privgen.tar.gz

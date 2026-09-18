@@ -1,0 +1,50 @@
+# DRAFT — see the notice in donut-rush-3d.yaml. The same two placeholders
+# (company identity, and the SDK/collection list) apply here and must be
+# confirmed against the shipped build before these documents are published.
+
+slug: fruit-slice
+name: Fruit Slice 3D
+updated: 2026-09-19
+
+company:
+  legalName: Orkestra, LLC
+  address:
+    - "REVIEW: registered address required"
+  country: United States
+  privacyEmail: privacy@orkestra.co
+  supportEmail: support@orkestra.co
+  website: https://orkestra.co
+
+platforms: [ios, android]
+audience: general
+ageGate: 13
+regions: [eea, uk, us-ca, us-other, turkey, rest-of-world]
+
+collects:
+  - device-identifiers
+  - advertising-id
+  - ip-address
+  - usage-analytics
+  - crash-diagnostics
+
+sdks:
+  - applovin-max
+  - gameanalytics
+  - firebase-analytics
+  - crashlytics
+
+monetization: [banner-ads, interstitial-ads, rewarded-ads]
+features: []
+
+retention:
+  analytics: 14 months
+  crash: 90 days
+  support: 3 years
+
+terms:
+  governingLaw: the State of Delaware, United States
+  venue: Wilmington, Delaware
+  arbitration: false
+  minAge: 13
+  refunds: platform-only
+  virtualItems: false

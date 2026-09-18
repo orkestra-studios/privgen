@@ -1,1 +1,98 @@
-body,textarea,input,select{background:0;border-radius:0;font:16px "Helvetica Neue", Helvetica, Arial, sans-serif;margin:0;padding:1em}.addon,.btn-sm,.nav,textarea,input,select{outline:0;font-size:14px}.smooth{transition:all 2.2s}.btn, a{text-decoration:none}.container{margin:0 auto;width:80%}.btn,h2{font-size:1.2em;margin-top:2em;}h1{font-size:2em;margin:1em 0;}li{margin:0.5em 0;}.center{display:flex;align-items: center;justify-content: center}
+/* Legal documents get read on phones, in bright sun, by people who are
+   already annoyed. Optimise for legibility, nothing else. */
+
+:root {
+  --bg: #fdfdfc;
+  --fg: #1c1c1a;
+  --muted: #5e5e58;
+  --rule: #e2e2dd;
+  --link: #1a5fb4;
+  --measure: 38rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --fg: #e8e8e3;
+    --muted: #a0a099;
+    --rule: #2e2e34;
+    --link: #82aaff;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 2rem 1rem 4rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: 1rem/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.document {
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  margin: 0 0 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.15rem;
+  line-height: 1.3;
+  margin: 2.5rem 0 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  scroll-margin-top: 1rem; /* so #DataDeletion does not land under the edge */
+}
+
+p { margin: 0 0 1rem; }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+li { margin: 0.35rem 0; }
+
+dl { margin: 0 0 1.5rem; }
+dt { font-weight: 600; margin-top: 1rem; }
+dd { margin: 0.2rem 0 0; color: var(--muted); }
+
+address { font-style: normal; color: var(--muted); margin: 0 0 1rem; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--rule);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* Contents */
+.toc { margin: 0 0 2rem; }
+.toc ul { list-style: none; padding: 0; }
+.toc li { margin: 0.2rem 0; font-size: 0.95rem; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 1.5rem; }
+.sibling { color: var(--muted); font-size: 0.9rem; }
+
+.centred { text-align: center; padding-top: 4rem; }
+
+@media print {
+  body { padding: 0; color: #000; background: #fff; }
+  .toc, .sibling { display: none; }
+  h2 { page-break-after: avoid; }
+}

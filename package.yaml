@@ -1,33 +1,46 @@
 name:                privgen
-version:             0.9.1.1
+version:             2.0.0
 github:              "orkestra/privgen"
 license:             BSD3
 author:              "Can Bulbul"
-maintainer:          "can@orkestra.co"
-copyright:           "2021 Orkestra"
+maintainer:          "can@orkestrayazilim.com"
+copyright:           "2021-2026 Orkestra"
 
 extra-source-files:
 - README.md
 - ChangeLog.md
 
-# Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:             Web
+synopsis:            Spec-driven privacy policy and terms of service generator
+category:            Web
 
-# To avoid duplicated efforts in documentation and dealing with the
-# complications of embedding Haddock markup inside cabal files, it is
-# common to point users to the README.md file.
 description:         Please see the README on GitHub at <https://github.com/orkestra/privgen#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- text
-- warp
-- wai
-- servant
-- servant-server
-- blaze-html
-- servant-blaze
+- base         >= 4.17    && < 5
+- text         >= 2.0     && < 2.2
+- bytestring   >= 0.11    && < 0.13
+- containers   >= 0.6     && < 0.8
+- time         >= 1.12    && < 1.15
+- mtl          >= 2.2     && < 2.4
+- filepath     >= 1.4     && < 1.6
+- directory    >= 1.3     && < 1.4
+- aeson        >= 2.1     && < 2.3
+- yaml         >= 0.11    && < 0.12
+- wai          >= 3.2     && < 3.3
+- warp         >= 3.3     && < 3.5
+- servant      >= 0.19    && < 0.21
+- servant-server >= 0.19  && < 0.21
+- servant-blaze  >= 0.9   && < 0.10
+- blaze-html   >= 0.9     && < 0.10
+- blaze-markup >= 0.8     && < 0.9
+- http-api-data >= 0.5    && < 0.7
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
 
 library:
   source-dirs: src
@@ -51,6 +64,9 @@ tests:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    - Wall
     dependencies:
     - privgen
+    - hspec      >= 2.10 && < 2.12
+    - QuickCheck >= 2.14 && < 2.16
+    build-tools:
+    - hspec-discover
